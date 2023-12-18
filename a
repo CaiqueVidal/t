@@ -1,0 +1,18 @@
+trilhas hub, judoca, karateca
+democratzação/atualização pipeline
+auxílio democratização pipeline
+projeto boot em ação (2° lugar)
+deploy modelo nmg
+otimização no custo de máquina modelo nmt
+disponibilizar endpoint de modelo retreinado
+deploy v2 modelo nmt
+correção na chamada do lambda provisionado do STS authorizer do API Gateway de modelo
+auxílio na escolha de máquina e teste de performance de modelos online
+camada velocity debito
+camada velocity pix
+camada velocity onboarding (tapete laranja)
+melhoria fluxo velocity (concorrência e Circuit Breaker)
+auxílio justa posição
+migração v1 para v2 pipelines
+auxílio migração v1 para v2 pipelines
+spec dict (em andamento)
