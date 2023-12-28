@@ -1,18 +1,81 @@
-trilhas hub, judoca, karateca
-democratzação/atualização pipeline
-auxílio democratização pipeline
-projeto boot em ação (2° lugar)
-deploy modelo nmg
-otimização no custo de máquina modelo nmt
-disponibilizar endpoint de modelo retreinado
-deploy v2 modelo nmt
-correção na chamada do lambda provisionado do STS authorizer do API Gateway de modelo
-auxílio na escolha de máquina e teste de performance de modelos online
-camada velocity debito
-camada velocity pix
-camada velocity onboarding (tapete laranja)
-melhoria fluxo velocity (concorrência e Circuit Breaker)
-auxílio justa posição
-migração v1 para v2 pipelines
-auxílio migração v1 para v2 pipelines
-spec dict (em andamento)
+{
+  "Comment": "Orchestration of two Glue jobs",
+  "StartAt": "RunGlueJob1",
+  "States": {
+    "RunGlueJob1": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "teste 1"
+      },
+      "ResultPath": "$.Job1Result",
+      "Next": "CheckJob1Status"
+    },
+    "CheckJob1Status": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Job1Result.JobRun.State",
+          "StringEquals": "SUCCEEDED",
+          "Next": "RunGlueJob2"
+        }
+      ]
+    },
+    "RunGlueJob2": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "teste"
+      },
+      "ResultPath": "$.Job2Result",
+      "End": true
+    }
+  }
+}
+
+
+
+
+
+
+
+{
+  "Comment": "Orchestration of two Glue jobs",
+  "StartAt": "RunGlueJob1",
+  "States": {
+    "RunGlueJob1": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "teste 1"
+      },
+      "ResultPath": "$.Job1Result",
+      "Next": "CheckJob1Status"
+    },
+    "CheckJob1Status": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Job1Result.JobRun.State",
+          "StringEquals": "SUCCEEDED",
+          "Next": "RunGlueJob2"
+        }
+      ],
+      "Default": "WaitJob1Status"
+    },
+    "WaitJob1Status": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "CheckJob1Status"
+    },
+    "RunGlueJob2": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "teste 2"
+      },
+      "ResultPath": "$.Job2Result",
+      "End": true
+    }
+  }
+}
