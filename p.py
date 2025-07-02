@@ -1,467 +1,157 @@
-
-# Baixar e instalar dependências
-!apt-get install openjdk-8-jdk-headless -qq > /dev/null
-!wget -q https://archive.apache.org/dist/spark/spark-3.2.4/spark-3.2.4-bin-hadoop3.2.tgz
-!tar xf spark-3.2.4-bin-hadoop3.2.tgz
-!pip install -q findspark
-
-
-# Configuração
-import os
-os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-3.2.4-bin-hadoop3.2"
-
-import findspark
-findspark.init()
-
-# Imports e init
+# pip install h3==4.3.0
+from h3.api import basic_str as h3
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType
-from pyspark.sql import functions as F
-from pyspark.sql.window import Window
-from functools import reduce
-from operator import or_
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
 
-spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Iniciando com Spark') \
-    .getOrCreate()
+spark = SparkSession.builder.appName("teste").getOrCreate()
 
-# Novos Dados
 data = [
-    ("12345678900","2023-11-22",0,3,10,0,0,2,3),
-    ("12345678900","2023-11-21",0,3,10,0,0,2,2),
-    ("98765432100","2023-11-15",0,0,0,0,0,1,2),
-    # ("12345678900",None,0,1,8,0,2,2,1),
-    # ("98765432100",None,1,6,8,0,1,1,1),
-    # ("246810","2023-11-22",0,0,0,0,0,0,2),
-    # # ("13579",None,0,0,4,2,2,3,1),
-    ("246810","2023-11-10",0,0,0,0,0,0,1)
-  ]
+    (-23.5505, -46.6333),  # São Paulo
+    (-23.5510, -46.6340),
+    (-22.9068, -43.1729),  # Rio
+    (-22.9070, -43.1730),
+    (-30.0346, -51.2177),  # Porto Alegre
+]
+df = spark.createDataFrame(data, ["latitude", "longitude"])
 
-schema = StructType([ \
-    StructField("documento",StringType(),True), \
-    StructField("data_a",StringType(),True), \
-    StructField("fraude_a_3",IntegerType(),True), \
-    StructField("fraude_a_6", IntegerType(), True), \
-    StructField("fraude_a_9", IntegerType(), True), \
-    StructField("fraude_b_3", IntegerType(), True), \
-    StructField("fraude_b_6", IntegerType(), True), \
-    StructField("fraude_b_9", IntegerType(), True), \
-    StructField("registro", IntegerType(), True) \
-  ])
+def latlon_to_h3(lat, lon, resolution=8):
+    return h3.latlng_to_cell(lat, lon, resolution)
 
-# data = [
-#     {
-#         "documento": "189513218",
-#         "data_o": "2022-11-22",
-#         "owner_3": 0,
-#         "owner_6": 3,
-#         "owner_9": 4
-#     },
-#     {
-#         "documento": "189513218",
-#         "data_o": "2022-05-16",
-#         "owner_3": 6,
-#         "owner_6": 2,
-#         "owner_9": 9
-#     },
-#     {
-#         "documento": "189513218",
-#         "data_o": "1970-00-00",
-#         "owner_3": 0,
-#         "owner_6": 0,
-#         "owner_9": 0
-#     },
-#     {
-#         "documento": "65789332",
-#         "data_o": "2022-09-13",
-#         "owner_3": 4,
-#         "owner_6": 0,
-#         "owner_9": 7
-#     },
-#     {
-#         "documento": "55555555",
-#         "data_o": "1970-00-00",
-#         "owner_3": 0,
-#         "owner_6": 0,
-#         "owner_9": 0
-#     },
-#     {
-#         "documento": "12345678900",
-#         "data_a": "2023-11-22",
-#         "fraude_a_3": 0,
-#         "fraude_a_6": 3,
-#         "fraude_a_9": 9,
-#         "registro": 3
-#     },
-#     {
-#         "documento": "12345678900",
-#         "data_a": "2023-11-21",
-#         "fraude_a_3": 0,
-#         "fraude_a_6": 3,
-#         "fraude_a_9": 10,
-#         "registro": 2
-#     },
-#     {
-#         "documento": "98765432100",
-#         "data_a": "2023-11-15",
-#         "fraude_a_3": 12,
-#         "fraude_a_6": 5,
-#         "fraude_a_9": 7,
-#         "registro": 2
-#     },
-#     {
-#         "documento": "12345678900",
-#         "fraude_a_3": 0,
-#         "fraude_a_6": 1,
-#         "fraude_a_9": 8,
-#         "registro": 1
-#     },
-#     {
-#         "documento": "98765432100",
-#         "fraude_a_3": 1,
-#         "fraude_a_6": 6,
-#         "fraude_a_9": 8,
-#         "registro": 1
-#     },
-#     {
-#         "documento": "246810",
-#         "data_a": "2023-11-22",
-#         "fraude_a_3": 0,
-#         "fraude_a_6": 0,
-#         "fraude_a_9": 0,
-#         "registro": 2
-#     },
-#     {
-#         "documento": "246810",
-#         "data_a": "2023-11-10",
-#         "fraude_a_3": 0,
-#         "fraude_a_6": 0,
-#         "fraude_a_9": 0,
-#         "registro": 1
-#     }
-# ]
+h3_udf = udf(latlon_to_h3, StringType())
 
-# schema = StructType([ \
-#     StructField("documento",StringType(),True), \
-#     StructField("data_o",StringType(),True), \
-#     StructField("owner_3",IntegerType(),True), \
-#     StructField("owner_6",IntegerType(),True), \
-#     StructField("owner_9",IntegerType(),True), \
-#     StructField("data_a",StringType(),True), \
-#     StructField("fraude_a_3",IntegerType(),True), \
-#     StructField("fraude_a_6", IntegerType(), True), \
-#     StructField("fraude_a_9", IntegerType(), True), \
-#     StructField("registro", IntegerType(), True) \
-#   ])
+df_h3 = df.withColumn("h3_index", h3_udf("latitude", "longitude"))
+df_h3.show(truncate=False)
 
-df = spark.createDataFrame(data=data,schema=schema)
+------------------------------------------------------------------------------
+# pip install folium==0.20.0
+import folium
+from h3.api import basic_str as h3
+import json
 
-df = df.filter((df.fraude_a_3 > 0)
-  | (df.fraude_a_6 > 0)
-  | (df.fraude_a_9 > 0)
-  | (df.fraude_b_3 > 0)
-  | (df.fraude_b_6 > 0)
-  | (df.fraude_b_9 > 0)
-)
-
-# df = df.dropna(subset="documento")
-df = df.withColumn("data_a", F.when(F.col("data_a") <= "1970-00-00", None).otherwise(F.col("data_a")))
-df.show(truncate=False)
-
-window_spec = Window.partitionBy("documento")
-df = (df
-    # .withColumn("max_owner_3", F.max("owner_3").over(window_spec))
-    # .withColumn("max_owner_6", F.max("owner_6").over(window_spec))
-    # .withColumn("max_owner_9", F.max("owner_9").over(window_spec))
-
-    # .withColumn("max_data_o", F.max("data_o").over(window_spec))
-    # .withColumn("min_data_o", F.min("data_o").over(window_spec))
-
-    # .withColumn("is_max_owner_3", F.col("owner_3") == F.col("max_owner_3"))
-    # .withColumn("is_max_owner_6", F.col("owner_6") == F.col("max_owner_6"))
-    # .withColumn("is_max_owner_9", F.col("owner_9") == F.col("max_owner_9"))
-
-    # .withColumn("is_max_data_o", F.col("data_o") == F.col("max_data_o"))
-
-    # .withColumn("data_when_max_owner_3", F.when(F.col("is_max_owner_3"), F.col("data_o")))
-    # .withColumn("data_when_max_owner_6", F.when(F.col("is_max_owner_6"), F.col("data_o")))
-    # .withColumn("data_when_max_owner_9", F.when(F.col("is_max_owner_9"), F.col("data_o")))
-
-    # .withColumn("owner_3_when_max_data", F.when(F.col("is_max_data_o"), F.col("owner_3")))
-    # .withColumn("owner_6_when_max_data", F.when(F.col("is_max_data_o"), F.col("owner_6")))
-    # .withColumn("owner_9_when_max_data", F.when(F.col("is_max_data_o"), F.col("owner_9")))
-
-    ##
-
-    .withColumn("max_fraude_a_3", F.max("fraude_a_3").over(window_spec))
-    .withColumn("max_fraude_a_6", F.max("fraude_a_6").over(window_spec))
-    .withColumn("max_fraude_a_9", F.max("fraude_a_9").over(window_spec))
-    .withColumn("max_fraude_b_3", F.max("fraude_b_3").over(window_spec))
-    .withColumn("max_fraude_b_6", F.max("fraude_b_6").over(window_spec))
-    .withColumn("max_fraude_b_9", F.max("fraude_b_9").over(window_spec))
-
-    .withColumn("max_data_a", F.max("data_a").over(window_spec))
-    .withColumn("min_data_a", F.min("data_a").over(window_spec))
-
-    .withColumn("is_max_fraude_a_3", F.col("fraude_a_3") == F.col("max_fraude_a_3"))
-    .withColumn("is_max_fraude_a_6", F.col("fraude_a_6") == F.col("max_fraude_a_6"))
-    .withColumn("is_max_fraude_a_9", F.col("fraude_a_9") == F.col("max_fraude_a_9"))
-    .withColumn("is_max_fraude_b_3", F.col("fraude_b_3") == F.col("max_fraude_b_3"))
-    .withColumn("is_max_fraude_b_6", F.col("fraude_b_6") == F.col("max_fraude_b_6"))
-    .withColumn("is_max_fraude_b_9", F.col("fraude_b_9") == F.col("max_fraude_b_9"))
-
-    .withColumn("is_max_data_a", F.col("data_a") == F.col("max_data_a"))
-
-    .withColumn("data_when_max_fraude_a_3", F.when(F.col("is_max_fraude_a_3"), F.col("data_a")))
-    .withColumn("data_when_max_fraude_a_6", F.when(F.col("is_max_fraude_a_6"), F.col("data_a")))
-    .withColumn("data_when_max_fraude_a_9", F.when(F.col("is_max_fraude_a_9"), F.col("data_a")))
-    .withColumn("data_when_max_fraude_b_3", F.when(F.col("is_max_fraude_b_3"), F.col("data_a")))
-    .withColumn("data_when_max_fraude_b_6", F.when(F.col("is_max_fraude_b_6"), F.col("data_a")))
-    .withColumn("data_when_max_fraude_b_9", F.when(F.col("is_max_fraude_b_9"), F.col("data_a")))
-
-    .withColumn("fraude_a_3_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_a_3")))
-    .withColumn("fraude_a_6_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_a_6")))
-    .withColumn("fraude_a_9_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_a_9")))
-    .withColumn("fraude_b_3_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_b_3")))
-    .withColumn("fraude_b_6_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_b_6")))
-    .withColumn("fraude_b_9_when_max_data", F.when(F.col("is_max_data_a"), F.col("fraude_b_9")))
-
-)
-df.show()
-
-def compare_and_get_max(*cols):
-    acc = F.col(cols[0])
-    for col in cols[1:]:
-        acc = F.when(F.col(col) > acc, F.col(col)).otherwise(acc)
-    return acc
-
-ex6 = [
-    "max_owner_3",
-    "max_owner_6",
-    "max_owner_9"
+points = [
+    (-23.5505, -46.6333),  # SP
+    (-23.5510, -46.6340),  # SP
+    (-22.9068, -43.1729),  # RJ
+    (-22.9070, -43.1730),  # RJ
+    (-30.0346, -51.2177),  # POA
 ]
 
-ex7a = [
-    "max_fraude_a_3",
-    "max_fraude_a_6",
-    "max_fraude_a_9"
-]
-ex7b = [
-    "max_fraude_b_3",
-    "max_fraude_b_6",
-    "max_fraude_b_9"
-]
+# calcular hexágonos
+resolution = 10
+h3_indices = [h3.latlng_to_cell(lat, lon, resolution) for lat, lon in points]
+h3_indices = list(set(h3_indices))  # remover duplicados
 
-df = (
-    df.groupBy("documento")
-    .agg(
-        *[
-            F.max(column).alias(column)
-            for column in (
-                # "max_owner_3",
-                # "max_owner_6",
-                # "max_owner_9",
-                # "max_data_o",
-                # "min_data_o",
-                # "data_when_max_owner_3",
-                # "data_when_max_owner_6",
-                # "data_when_max_owner_9",
-                # "owner_3_when_max_data",
-                # "owner_6_when_max_data",
-                # "owner_9_when_max_data",
+# iniciar mapa centralizado em SP
+m = folium.Map(location=[-23.5505, -46.6333], zoom_start=5)
 
-                "max_fraude_a_3",
-                "max_fraude_a_6",
-                "max_fraude_a_9",
-                "max_fraude_b_3",
-                "max_fraude_b_6",
-                "max_fraude_b_9",
-                "max_data_a",
-                "min_data_a",
-                "data_when_max_fraude_a_3",
-                "data_when_max_fraude_a_6",
-                "data_when_max_fraude_a_9",
-                "data_when_max_fraude_b_3",
-                "data_when_max_fraude_b_6",
-                "data_when_max_fraude_b_9",
-                "fraude_a_3_when_max_data",
-                "fraude_a_6_when_max_data",
-                "fraude_a_9_when_max_data",
-                "fraude_b_3_when_max_data",
-                "fraude_b_6_when_max_data",
-                "fraude_b_9_when_max_data",
-                "registro"
-            )
-        ],
+# desenhar hexágonos
+for h in h3_indices:
+    boundary = h3.cell_to_boundary(h)
+    folium.Polygon(
+        locations=boundary,
+        color="blue",
+        fill=True,
+        fill_opacity=0.3,
+        popup=h
+    ).add_to(m)
+
+# marcar os pontos também
+for lat, lon in points:
+    folium.CircleMarker(location=[lat, lon], radius=5, color="red").add_to(m)
+
+m.save("mapa_hexagonos10.html")
+print("Arquivo gerado: mapa_hexagonos10.html")
+
+------------------------------------------------------------------------------
+# pip install pygeohash==3.1.3
+import pygeohash as pgh
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
+
+spark = SparkSession.builder.appName("teste").getOrCreate()
+
+# função para transformar lat/lon em geohash
+def to_geohash(lat, lon, precision=7):
+    return pgh.encode(lat, lon, precision=precision)
+
+geohash_udf = udf(to_geohash, StringType())
+
+# dataframe de exemplo
+data = [
+    (-23.5505, -46.6333),  # São Paulo
+    (-23.5510, -46.6340),
+    (-22.9068, -43.1729),  # Rio
+    (-22.9070, -43.1730),
+    (-30.0346, -51.2177),  # Porto Alegre
+]
+df = spark.createDataFrame(data, ["latitude", "longitude"])
+
+# aplicando o geohash
+df_geo = df.withColumn("geohash", geohash_udf("latitude", "longitude"))
+df_geo.show(truncate=False)
+
+------------------------------------------------------------------------------
+# pip install shapely==2.1.1 apache-sedona==1.5.1 pygeohash==3.1.3
+from pyspark.sql import SparkSession
+from sedona.register import SedonaRegistrator
+from pyspark.sql.functions import expr
+
+spark = (
+    SparkSession.builder
+    .appName("sedona-geofence")
+    .config(
+        "spark.jars.packages",
+        "org.apache.sedona:sedona-python-adapter-3.0_2.12:1.4.1,org.datasyslab:geotools-wrapper:1.5.1-28.2"
     )
-    # .withColumn("max_owner", compare_and_get_max("max_owner_3", "max_owner_6", "max_owner_9"))
-    # .withColumn("max_data_owner", reduce(
-    #     lambda acc, nome: acc.when((F.col("max_owner") == F.col(nome)), F.col(f"data_when_{nome}")), ex6, F
-    # ))
-    .withColumn("max_fraude_a", compare_and_get_max("max_fraude_a_3", "max_fraude_a_6", "max_fraude_a_9"))
-    .withColumn("max_data_fraude_a", F.when(F.col("max_fraude_a") == 0, None).otherwise(
-        reduce(
-          lambda acc, nome: acc.when((F.col("max_fraude_a") == F.col(nome)), F.col(f"data_when_{nome}")), ex7a, F
-      )
-    ))
-    .withColumn("max_fraude_b", compare_and_get_max("max_fraude_b_3", "max_fraude_b_6", "max_fraude_b_9"))
-    .withColumn("max_data_fraude_b", reduce(
-        lambda acc, nome: acc.when((F.col("max_fraude_b") == F.col(nome)), F.col(f"data_when_{nome}")), ex7b, F
-    ))
+    .getOrCreate()
 )
-drops = (
-    "data_when_max_fraude_a_3",
-    "data_when_max_fraude_a_6",
-    "data_when_max_fraude_a_9",
-    "data_when_max_fraude_b_3",
-    "data_when_max_fraude_b_6",
-    "data_when_max_fraude_b_9",
-)
-df = df.drop(*drops)
 
-df.show()
+# registrar funções do Sedona no SparkSQL
+SedonaRegistrator.registerAll(spark)
 
-
-data2 = [
-    ("12345678900", "2023-11-01", "2022-03-16", 1, 2, 9, 0, 0, 0, "2022-07-01", 12, 1, 12, 9, None, 0, 0, 0, 0, 100),
-    ("98765432100", "2023-11-01", "2023-05-29", 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, "2022-12-12", 3, 3, 0, 0, 54),
-    ("4455667788", "2023-10-10", "2023-09-09", 1, 2, 3, 4, 5, 6, "2023-10-10", 3, 1, 2, 3, "2023-10-10", 6, 4, 5, 6, 80)
+data = [
+    (-23.542204, -46.576563, "2024-06-01", "12345"),
+    (-23.543300, -46.576570, "2024-06-01", "12345"),
+    (-23.528857, -46.566307, "2024-06-01", "67890"),
 ]
 
+columns = ["latitude", "longitude", "data_evento", "documento"]
 
-schema2 = StructType([ \
-    StructField("documento",StringType(),True), \
-    StructField("max_data_a",StringType(),True), \
-    StructField("min_data_a",StringType(),True), \
-    StructField("fraude_a_3_when_max_data", IntegerType(),True), \
-    StructField("fraude_a_6_when_max_data", IntegerType(), True), \
-    StructField("fraude_a_9_when_max_data", IntegerType(), True), \
-    StructField("fraude_b_3_when_max_data", IntegerType(), True), \
-    StructField("fraude_b_6_when_max_data", IntegerType(), True), \
-    StructField("fraude_b_9_when_max_data", IntegerType(), True), \
-    StructField("max_data_fraude_a",StringType(),True), \
-    StructField("max_fraude_a",IntegerType(),True), \
-    StructField("max_fraude_a_3",IntegerType(),True), \
-    StructField("max_fraude_a_6", IntegerType(), True), \
-    StructField("max_fraude_a_9", IntegerType(), True), \
-    StructField("max_data_fraude_b",StringType(),True), \
-    StructField("max_fraude_b", IntegerType(), True), \
-    StructField("max_fraude_b_3", IntegerType(), True), \
-    StructField("max_fraude_b_6", IntegerType(), True), \
-    StructField("max_fraude_b_9", IntegerType(), True), \
-    StructField("registro", IntegerType(), True) \
-])
+df = spark.createDataFrame(data, columns)
 
-df2 = spark.createDataFrame(data2,schema=schema2)
+# transforma em ponto Sedona
+df_geom = df.withColumn(
+    "point",
+    expr("ST_Point(cast(longitude as Decimal(24,20)), cast(latitude as Decimal(24,20)))")
+)
+df_geom.show(truncate=False)
 
-df2.show()
+# Sedona espera graus → transforme metros para graus aproximadamente:
+raio_graus = 0.001  # ~100m aproximado
 
-
-df_union = df.unionByName(df2)
-
-df_union.printSchema()
-df_union.show()
-
-
-df_union = (df_union
-  .withColumn("max_fraude_a_3_union", F.max("max_fraude_a_3").over(window_spec))
-  .withColumn("max_fraude_a_6_union", F.max("max_fraude_a_6").over(window_spec))
-  .withColumn("max_fraude_a_9_union", F.max("max_fraude_a_9").over(window_spec))
-  .withColumn("max_fraude_b_3_union", F.max("max_fraude_b_3").over(window_spec))
-  .withColumn("max_fraude_b_6_union", F.max("max_fraude_b_6").over(window_spec))
-  .withColumn("max_fraude_b_9_union", F.max("max_fraude_b_9").over(window_spec))
-
-  .withColumn("max_data_a_union", F.max("max_data_a").over(window_spec))
-  .withColumn("min_data_a_union", F.min("min_data_a").over(window_spec))
-
-  .withColumn("is_max_fraude_a_3", F.col("max_fraude_a_3") == F.col("max_fraude_a_3_union"))
-  .withColumn("is_max_fraude_a_6", F.col("max_fraude_a_6") == F.col("max_fraude_a_6_union"))
-  .withColumn("is_max_fraude_a_9", F.col("max_fraude_a_9") == F.col("max_fraude_a_9_union"))
-  .withColumn("is_max_fraude_b_3", F.col("max_fraude_b_3") == F.col("max_fraude_b_3_union"))
-  .withColumn("is_max_fraude_b_6", F.col("max_fraude_b_6") == F.col("max_fraude_b_6_union"))
-  .withColumn("is_max_fraude_b_9", F.col("max_fraude_b_9") == F.col("max_fraude_b_9_union"))
-
-  .withColumn("is_max_data_a", F.col("max_data_a") == F.col("max_data_a_union"))
-
-  .withColumn("data_when_max_fraude_a_3", F.when(F.col("is_max_fraude_a_3"), F.col("max_data_fraude_a")))
-  .withColumn("data_when_max_fraude_a_6", F.when(F.col("is_max_fraude_a_6"), F.col("max_data_fraude_a")))
-  .withColumn("data_when_max_fraude_a_9", F.when(F.col("is_max_fraude_a_9"), F.col("max_data_fraude_a")))
-  .withColumn("data_when_max_fraude_b_3", F.when(F.col("is_max_fraude_b_3"), F.col("max_data_fraude_a")))
-  .withColumn("data_when_max_fraude_b_6", F.when(F.col("is_max_fraude_b_6"), F.col("max_data_fraude_a")))
-  .withColumn("data_when_max_fraude_b_9", F.when(F.col("is_max_fraude_b_9"), F.col("max_data_fraude_a")))
-
-  .withColumn("fraude_a_3_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_a_3_when_max_data")))
-  .withColumn("fraude_a_6_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_a_6_when_max_data")))
-  .withColumn("fraude_a_9_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_a_9_when_max_data")))
-  .withColumn("fraude_b_3_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_b_3_when_max_data")))
-  .withColumn("fraude_b_6_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_b_6_when_max_data")))
-  .withColumn("fraude_b_9_when_max_data_union", F.when(F.col("is_max_data_a"), F.col("fraude_b_9_when_max_data")))
+df_geofence = df_geom.withColumn(
+    "geofence",
+    expr(f"ST_Buffer(point, {raio_graus})")
 )
 
-df_union.show()
+df_geofence.select("documento", "geofence").show(truncate=False)
 
+novo_ponto_lat = -23.542204
+novo_ponto_lon = -46.576563
 
-df_union = (
-    df_union.groupBy("documento")
-    .agg(
-        *[
-            F.max(column).alias(column)
-            for column in (
-                "max_fraude_a_3_union",
-                "max_fraude_a_6_union",
-                "max_fraude_a_9_union",
-                "max_fraude_b_3_union",
-                "max_fraude_b_6_union",
-                "max_fraude_b_9_union",
-                "max_data_a_union",
-                "min_data_a_union",
-                "max_data_fraude_a",
-                "max_data_fraude_b",
-                "data_when_max_fraude_a_3",
-                "data_when_max_fraude_a_6",
-                "data_when_max_fraude_a_9",
-                "data_when_max_fraude_b_3",
-                "data_when_max_fraude_b_6",
-                "data_when_max_fraude_b_9",
-                "fraude_a_3_when_max_data_union",
-                "fraude_a_6_when_max_data_union",
-                "fraude_a_9_when_max_data_union",
-                "fraude_b_3_when_max_data_union",
-                "fraude_b_6_when_max_data_union",
-                "fraude_b_9_when_max_data_union",
-                "registro"
-            )
-        ],
-    )
-    .withColumn("max_fraude_a_union", compare_and_get_max("max_fraude_a_3_union", "max_fraude_a_6_union", "max_fraude_a_9_union"))
-    .withColumn("max_data_fraude_a_union", F.when(F.col("max_fraude_a_union") == 0, None).otherwise(
-        reduce(
-          lambda acc, nome: acc.when((F.col("max_fraude_a_union") == F.col(f"{nome}_union")), F.col(f"max_data_fraude_a")), ex7a, F
-      )
-    ))
-    .withColumn("max_fraude_b_union", compare_and_get_max("max_fraude_b_3_union", "max_fraude_b_6_union", "max_fraude_b_9_union"))
-    .withColumn("max_data_fraude_b_union", F.when(F.col("max_fraude_b_union") == 0, None).otherwise(
-      reduce(
-        lambda acc, nome: acc.when((F.col("max_fraude_b_union") == F.col(f"{nome}_union")), F.col(f"max_data_fraude_b")), ex7b, F
-      )
-    ))
+novo_ponto_wkt = f"POINT({novo_ponto_lon} {novo_ponto_lat})"
+
+df_novo_ponto = spark.createDataFrame([(novo_ponto_wkt,)], ["wkt"]) \
+    .withColumn("geometry", expr("ST_GeomFromWKT(wkt)"))
+
+df_novo_ponto.show(truncate=False)
+
+joined = df_geofence.join(
+    df_novo_ponto,
+    expr("ST_Contains(geofence, geometry)")
 )
-drops = (
-    "data_when_max_fraude_a_3",
-    "data_when_max_fraude_a_6",
-    "data_when_max_fraude_a_9",
-    "data_when_max_fraude_b_3",
-    "data_when_max_fraude_b_6",
-    "data_when_max_fraude_b_9",
-)
-df_union = df_union.drop(*drops)
 
-# columns_to_rename = df_union.columns
+joined.show(truncate=False)
 
-# for column in columns_to_rename:
-#     new_column_name = column.replace("_union", "")
-#     df_union = df_union.withColumnRenamed(column, new_column_name)
-
-df_union.show()
