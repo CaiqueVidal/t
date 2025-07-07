@@ -1,81 +1,235 @@
-{
-  "Comment": "Orchestration of two Glue jobs",
-  "StartAt": "RunGlueJob1",
-  "States": {
-    "RunGlueJob1": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
-      "Parameters": {
-        "JobName": "teste 1"
-      },
-      "ResultPath": "$.Job1Result",
-      "Next": "CheckJob1Status"
-    },
-    "CheckJob1Status": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Variable": "$.Job1Result.JobRun.State",
-          "StringEquals": "SUCCEEDED",
-          "Next": "RunGlueJob2"
-        }
-      ]
-    },
-    "RunGlueJob2": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
-      "Parameters": {
-        "JobName": "teste"
-      },
-      "ResultPath": "$.Job2Result",
-      "End": true
-    }
-  }
-}
+from h3.api import basic_str as h3
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, ArrayType, BooleanType
+from pyspark.sql.window import Window
+
+spark = SparkSession.builder.appName("haversine").getOrCreate()
+
+number_of_days_skipped = 21
+number_of_transactions_per_group = 1
+number_of_days_between_groups = 4
+number_of_groups = 2
 
 
+schema_principal = StructType([
+    StructField("documento_origem", StringType(), False),
+    StructField("valor_", DoubleType(), False),
+    StructField("latitude", DoubleType(), False),
+    StructField("longitude", DoubleType(), False),
+    StructField("anomesdia", StringType(), False)
+])
+principal_df = spark.createDataFrame(
+    [
+        ("12345678900", 10.0, -23.5505, -46.6333, "2025-05-10"),
+        ("12345678900", 20.0, -23.5505, -46.6333, "2025-05-10"),
+        ("12345678900", 30.0, -23.5510, -46.6340, "2025-05-02"),
+        ("12345678900", 40.0, -23.59575262248087, -46.50512338334882, "2025-05-10"),
+        ("12345678900", 50.0, -1.3508493, -48.4338201, "2025-05-09"),
+        ("12345678900", 60.0, -24.9525771, -53.4503491, "2025-05-10")
+    ]
+, schema_principal)
+
+def has_no_intersection(list1, list2):
+    return not any(item in list1 for item in list2)
+
+def calculate_h3_and_neighbors(lat, long, resolution=10):
+    current_hex = h3.latlng_to_cell(lat, long, resolution)
+    neighbors = list(h3.grid_ring(current_hex, 1))
+    all_hexes = neighbors + [current_hex]
+    return {"principal_geofence": current_hex, "h3_hexagons_with_nearest": all_hexes}
+
+def include_geofence(df):
+    schema = StructType([
+        StructField("principal_geofence", StringType(), False),
+        StructField("h3_hexagons_with_nearest", ArrayType(StringType()), False)
+    ])
+    calculate_h3_and_neighbors_udf = F.udf(lambda lat, lon: calculate_h3_and_neighbors(lat, lon), schema)
+    df = df.withColumn("h3_and_geofences", calculate_h3_and_neighbors_udf(F.col("latitude"), F.col("longitude")))
+    df = df.withColumn("principal_geofence", F.col("h3_and_geofences.principal_geofence"))
+    df = df.withColumn("h3_hexagons_with_nearest", F.col("h3_and_geofences.h3_hexagons_with_nearest"))
+    df = df.drop("h3_and_geofences")
+    return df
+
+def get_unsual_geoloc_df(df):
+    geoloc_df = include_geofence(df)
+    # print("geoloc_df")
+    # geoloc_df.show(truncate= False)
+
+    last_date_str = "2025-05-10"
+
+    geoloc_df_for_join = geoloc_df.filter(
+        F.col("anomesdia") == last_date_str
+    ).select(["documento_origem", "latitude", "longitude", "principal_geofence", "h3_hexagons_with_nearest"])
+    # print("geoloc_df_for_join")
+    # geoloc_df_for_join.show(truncate= False)
+
+    schema2 = StructType([
+        StructField("documento_origem", StringType(), False),
+        StructField("principal_geofences", ArrayType(StringType()), False),
+        StructField("geofences_with_neighbors", ArrayType(StringType()), False)
+    ])
+    usual_geoloc_df = spark.createDataFrame(
+        [
+            (
+                "12345678900",
+                ['88a8a06b01fffff', '88a8a06b03fffff'],
+                ['88a8a06b01fffff', '88a8a06b03fffff', '88a82dc9adfffff']
+            )
+        ]
+    , schema2)
+    # print("usual_geoloc_df")
+    # usual_geoloc_df.show(truncate= False)
+
+    has_no_intersection_udf = F.udf(has_no_intersection, BooleanType())
+    unusual_geoloc_df = geoloc_df_for_join.join(
+        usual_geoloc_df,
+        on='documento_origem'
+    ).filter(
+        has_no_intersection_udf(F.col('geofences_with_neighbors'), F.col('h3_hexagons_with_nearest'))
+    ).dropDuplicates()
+    # print("unusual_geoloc_df")
+    # unusual_geoloc_df.show(truncate= False)
+
+    unusual_with_exploded = unusual_geoloc_df.withColumn(
+        "geofence_candidate",
+        F.explode(F.col("h3_hexagons_with_nearest"))
+    ).select("documento_origem", "geofence_candidate").distinct()
+    # print("unusual_with_exploded")
+    # unusual_with_exploded.show(truncate=False)
+
+    geoloc_df_with_exploded = geoloc_df.withColumn(
+        "geofence_candidate",
+        F.explode(F.col("h3_hexagons_with_nearest"))
+    )
+    # print("geoloc_df_with_exploded")
+    # geoloc_df_with_exploded.show(100, truncate=False)
+
+    geoloc_df_to_check_regularity = geoloc_df_with_exploded.join(
+        unusual_with_exploded,
+        on=['documento_origem', "geofence_candidate"],
+        how='inner'
+    ).select(
+        'documento_origem',
+        'geofence_candidate',
+        'principal_geofence',
+        'h3_hexagons_with_nearest',
+        'anomesdia'
+    )
+    # print("geoloc_df_to_check_regularity")
+    # geoloc_df_to_check_regularity.show(100, truncate= False)
+    return geoloc_df_to_check_regularity
 
 
+####################################################################
+
+def calculate_geoloc_habituality(geoloc_df_to_check_regularity):
+    exploded_df = geoloc_df_to_check_regularity
+    # print("exploded_df")
+    # exploded_df.show(100, truncate=False)
+
+    # transforma a string de data para tipo Date
+    exploded_df = exploded_df.withColumn(
+        "date",
+        F.to_date("anomesdia", "yyyy-MM-dd")
+    )
+
+    # 2) agrupa para contar quantos registros houveram no mesmo dia
+    # para cada documento + geofence
+    # ou seja: posso dizer "em tal dia, você teve X transações nesta geofence (ou vizinhas)"
+    grouped_days = (
+        exploded_df
+        .groupBy("documento_origem", "geofence_candidate", "date")
+        .agg(F.count("*").alias("number_of_transactions"))
+        .filter(F.col("number_of_transactions") >= number_of_transactions_per_group)
+    )
+
+    valid_groups = grouped_days
+
+    # 5) dentro dos grupos válidos, ordena por data
+    # para poder ver as datas consecutivas
+    window_spec = Window.partitionBy("documento_origem", "geofence_candidate").orderBy("date")
+
+    valid_groups = (
+        valid_groups.withColumn(
+            "anomesdia_anterior",
+            F.lag("date").over(window_spec)
+        ).withColumn(
+            "difference_in_days_between_groups",
+            F.datediff("date", F.col("anomesdia_anterior"))
+        )
+    )
+
+    # 6) cria flag para novo grupo
+    # se for o primeiro (null) ou intervalo >=4 dias → novo grupo
+    valid_groups = valid_groups.withColumn(
+        "new_group_flag",
+        F.when(F.col("difference_in_days_between_groups").isNull() | (F.col("difference_in_days_between_groups") >= number_of_days_between_groups), 1).otherwise(0)
+    )
+
+    window_spec_lag = Window.partitionBy("documento_origem", "geofence_candidate").orderBy("date")
+    valid_groups = valid_groups.withColumn(
+        "group_id",
+        F.sum("new_group_flag").over(window_spec_lag)
+    )
+    
+    # print("valid_groups")
+    # valid_groups.show(100, truncate=False)
+
+    # 9) finalmente marcar habitual
+    usual_geoloc_df = (
+        valid_groups
+        .select("documento_origem", "geofence_candidate", "group_id").distinct()
+        .groupBy("documento_origem", "geofence_candidate")
+        .agg(F.countDistinct("group_id").alias("count_valid_groups"))
+        .filter(F.col("count_valid_groups") >= number_of_groups)
+    )
+
+    # print("habitual_new")
+    # habitual.show(100, truncate=False)
+    return usual_geoloc_df
 
 
+def expand_habitual_to_neighbors(habitual_df, geoloc_df_to_check_regularity):
+    exploded = geoloc_df_to_check_regularity.withColumn(
+        "neighbor",
+        F.explode("h3_hexagons_with_nearest")
+    ).select(
+        "documento_origem", "principal_geofence", "neighbor"
+    )
+    
+    # junta habitualidade com a lista de vizinhos da principal
+    habitual_expanded = habitual_df.join(
+        exploded,
+        (habitual_df["documento_origem"] == exploded["documento_origem"]) &
+        (habitual_df["geofence_candidate"] == exploded["principal_geofence"]),
+        how="inner"
+    ).select(
+        habitual_df["documento_origem"],
+        exploded["neighbor"].alias("geofence_candidate"),
+        habitual_df["count_valid_groups"],
+        exploded["principal_geofence"]
+    ).distinct()
 
-{
-  "Comment": "Orchestration of two Glue jobs",
-  "StartAt": "RunGlueJob1",
-  "States": {
-    "RunGlueJob1": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
-      "Parameters": {
-        "JobName": "teste 1"
-      },
-      "ResultPath": "$.Job1Result",
-      "Next": "CheckJob1Status"
-    },
-    "CheckJob1Status": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Variable": "$.Job1Result.JobRun.State",
-          "StringEquals": "SUCCEEDED",
-          "Next": "RunGlueJob2"
-        }
-      ],
-      "Default": "WaitJob1Status"
-    },
-    "WaitJob1Status": {
-      "Type": "Wait",
-      "Seconds": 10,
-      "Next": "CheckJob1Status"
-    },
-    "RunGlueJob2": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
-      "Parameters": {
-        "JobName": "teste 2"
-      },
-      "ResultPath": "$.Job2Result",
-      "End": true
-    }
-  }
-}
+    habitual_expanded = habitual_expanded.withColumnRenamed('geofence_candidate', 'geofence')
+    
+    habitual_expanded = habitual_expanded.withColumn(
+        "is_principal_geofence",
+        F.when(
+            F.col("geofence") == F.col("principal_geofence"),
+            F.lit(True)
+        ).otherwise(F.lit(False))
+    ).drop('principal_geofence')
+
+    return habitual_expanded
+
+
+df = get_unsual_geoloc_df(principal_df)
+
+habitual_df = calculate_geoloc_habituality(df)
+# print("habitual_df")
+# habitual_df.show(100, truncate=False)
+
+habitual_propagated_df = expand_habitual_to_neighbors(habitual_df, df)
+print("habitual_propagated_df")
+habitual_propagated_df.show(100, truncate=False)
