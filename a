@@ -1,0 +1,96 @@
+from pyspark.sql import functions as F
+from pyspark.sql.types import *
+from pyspark.sql.functions import pandas_udf, PandasUDFType
+import pandas as pd
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, ArrayType, BooleanType
+
+spark = SparkSession.builder.appName("hab").getOrCreate()
+
+schema_teste = StructType([
+    StructField("documento_origem", StringType(), False),
+    StructField("geofence_candidate", StringType(), False),
+    StructField("principal_geofence", StringType(), False),
+    StructField("anomesdia", StringType(), False)
+])
+df_teste = spark.createDataFrame(
+    [
+        ("12345678900", '8aa8100c02affff', '8aa8100c02affff', "2025-05-11"),
+        ("12345678900", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-11"),
+        ("12345678900", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-11"),
+        ("12345678900", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-11"),
+        ("12345678900", '8aa8100c02affff', '8aa8100c02affff', "2025-05-09"),
+        ("12345678900", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-09"),
+        ("12345678900", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-09"),
+        ("12345678900", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-09"),
+        ("12345678900", '8aa8100c02affff', '8aa8100c02affff', "2025-05-06"),
+        ("12345678900", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-06"),
+        ("12345678900", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-06"),
+        ("12345678900", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-06"),
+        ("00987654321", '8aa8100c02affff', '8aa8100c02affff', "2025-05-11"),
+        ("00987654321", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-11"),
+        ("00987654321", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-11"),
+        ("00987654321", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-11"),
+        ("00987654321", '8aa8100c02affff', '8aa8100c02affff', "2025-05-09"),
+        ("00987654321", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-09"),
+        ("00987654321", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-09"),
+        ("00987654321", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-09"),
+        ("00987654321", '8aa8100c02affff', '8aa8100c02affff', "2025-05-06"),
+        ("00987654321", '8aa8100c0287fff', '8aa8100c02affff', "2025-05-06"),
+        ("00987654321", '8aa8100c029ffff', '8aa8100c02affff', "2025-05-06"),
+        ("00987654321", '8aa8100c3927fff', '8aa8100c02affff', "2025-05-06")
+    ]
+, schema_teste)
+
+# 1. Cast da data (caso necessário)
+df_teste = df_teste.withColumn("anomesdia", F.col("anomesdia").cast("date"))
+
+# 2. Agrupar por documento/geofence/data e contar transações
+grouped_days = (
+    df_teste.groupBy("documento_origem", "geofence_candidate", "anomesdia")
+    .agg(F.count("*").alias("transactions"))
+    .filter(F.col("transactions") >= 1)
+)
+
+print("📌 grouped_days:")
+grouped_days.show(30, truncate=False)
+
+# 3. Função acumulativa via pandas_udf
+@pandas_udf("documento_origem string, geofence_candidate string, anomesdia date, is_valid_group int", PandasUDFType.GROUPED_MAP)
+def detect_valid_groups(pdf):
+    pdf = pdf.sort_values("anomesdia")
+    last_valid_date = None
+    result = []
+
+    for _, row in pdf.iterrows():
+        current_date = row["anomesdia"]
+        if last_valid_date is None or (current_date - last_valid_date).days >= 4:
+            result.append((row["documento_origem"], row["geofence_candidate"], current_date, 1))
+            last_valid_date = current_date
+        else:
+            result.append((row["documento_origem"], row["geofence_candidate"], current_date, 0))
+
+    return pd.DataFrame(result, columns=["documento_origem", "geofence_candidate", "anomesdia", "is_valid_group"])
+
+# 4. Aplicar por grupo
+grouped_validity = grouped_days.groupBy("documento_origem", "geofence_candidate").apply(detect_valid_groups)
+
+print("📌 grouped_validity (com is_valid_group):")
+grouped_validity.orderBy("documento_origem", "geofence_candidate", "anomesdia").show(30, truncate=False)
+
+# 5. Filtrar grupos válidos
+valid_groups = grouped_validity.filter(F.col("is_valid_group") == 1)
+
+print("📌 valid_groups:")
+valid_groups.show(30, truncate=False)
+
+# 6. Calcular se há pelo menos 2 grupos válidos (habitualidade)
+habitual_geoloc_df = (
+    valid_groups.groupBy("documento_origem", "geofence_candidate")
+    .agg(F.count("*").alias("count_valid_groups"))
+    .filter(F.col("count_valid_groups") >= 2)
+)
+
+print("📌 habitual_geoloc_df:")
+habitual_geoloc_df.show(30, truncate=False)
