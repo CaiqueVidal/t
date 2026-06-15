@@ -1,0 +1,162 @@
+{
+    "summary": "A análise identificou o domínio provável como 'nps' com confiança 'high'. Foram consolidados 5 insights priorizados. Dataset possui boa qualidade estrutural para análise exploratória.",
+    "inferred_domain": "nps",
+    "domain_confidence": "high",
+    "analysis_goal": "Gerar uma análise exploratória do dataset, identificando principais achados, riscos, oportunidades, hipóteses explicativas, recomendações acionáveis, priorização dos insights e limitações dos dados.",
+    "insights": [
+        {
+            "title": "Baixa Satisfação em Pequenas Empresas",
+            "description": "As pequenas empresas apresentam uma média de NPS de 6,45, com uma alta proporção de respostas negativas, especialmente em relação à integração e documentação.",
+            "evidence": [
+                {
+                    "description": "475 respostas de pequenas empresas com NPS médio de 6,45.",
+                    "source": "dataset"
+                },
+                {
+                    "description": "98 comentários mencionam 'Integração instável e documentação confusa'.",
+                    "source": "dataset"
+                }
+            ],
+            "confidence": "high",
+            "estimated_impact": "high",
+            "urgency": "medium",
+            "priority_hint": 1,
+            "suggested_actions": [
+                {
+                    "action": "Iniciar um projeto para revisar e melhorar a documentação e integração para pequenas empresas.",
+                    "owner_suggestion": "Produto",
+                    "effort": "medium"
+                }
+            ],
+            "limitations": [
+                "A análise é baseada em dados de NPS e comentários, podendo não refletir a totalidade da experiência do cliente."
+            ]
+        },
+        {
+            "title": "Oportunidade de Melhoria no Onboarding",
+            "description": "A dificuldade no onboarding é uma reclamação recorrente, com 93 comentários mencionando 'Onboarding difícil e suporte pouco claro'.",
+            "evidence": [
+                {
+                    "description": "93 comentários mencionam dificuldades no onboarding.",
+                    "source": "dataset"
+                }
+            ],
+            "confidence": "high",
+            "estimated_impact": "high",
+            "urgency": "high",
+            "priority_hint": 2,
+            "suggested_actions": [
+                {
+                    "action": "Desenvolver um programa de otimização do onboarding, incluindo tutoriais e suporte dedicado.",
+                    "owner_suggestion": "Produto",
+                    "effort": "high"
+                }
+            ],
+            "limitations": [
+                "As opiniões são subjetivas e podem não refletir a experiência de todos os usuários."
+            ]
+        },
+        {
+            "title": "Tendência de NPS em Segmentos de Clientes",
+            "description": "O segmento de mercado médio apresenta uma média de NPS de 7, enquanto o segmento empresarial tem uma média de 8, indicando uma diferença significativa na satisfação.",
+            "evidence": [
+                {
+                    "description": "286 respostas do segmento médio com NPS médio de 7.",
+                    "source": "dataset"
+                },
+                {
+                    "description": "239 respostas do segmento empresarial com NPS médio de 8.",
+                    "source": "dataset"
+                }
+            ],
+            "confidence": "high",
+            "estimated_impact": "medium",
+            "urgency": "medium",
+            "priority_hint": 3,
+            "suggested_actions": [
+                {
+                    "action": "Realizar entrevistas qualitativas com clientes dos segmentos médio e empresarial para entender suas necessidades.",
+                    "owner_suggestion": "Pesquisa de Mercado",
+                    "effort": "medium"
+                }
+            ],
+            "limitations": [
+                "As médias podem ser influenciadas por outliers e não refletem a totalidade da experiência do cliente."
+            ]
+        },
+        {
+            "title": "Canais de Resposta e Satisfação",
+            "description": "O canal de email é o mais utilizado (479 respostas), mas também apresenta a maior quantidade de reclamações sobre lentidão e atendimento.",
+            "evidence": [
+                {
+                    "description": "479 respostas via email com 93 reclamações sobre 'Atendimento demorou e o problema não foi resolvido'.",
+                    "source": "dataset"
+                },
+                {
+                    "description": "95 comentários mencionam 'Sistema apresentou lentidão em momentos críticos'.",
+                    "source": "dataset"
+                }
+            ],
+            "confidence": "high",
+            "estimated_impact": "medium",
+            "urgency": "medium",
+            "priority_hint": 4,
+            "suggested_actions": [
+                {
+                    "action": "Aumentar a eficiência do atendimento no canal de email, revisando processos e treinando a equipe.",
+                    "owner_suggestion": "Atendimento",
+                    "effort": "medium"
+                }
+            ],
+            "limitations": [
+                "A análise é limitada ao número de respostas e pode não representar a totalidade dos clientes que utilizam outros canais."
+            ]
+        },
+        {
+            "title": "Alta Satisfação em Segmentos Empresariais",
+            "description": "Os segmentos empresariais têm uma alta proporção de NPS 10, indicando uma experiência positiva, com 10% das respostas nesse nível.",
+            "evidence": [
+                {
+                    "description": "239 respostas do segmento empresarial com 10% de NPS 10.",
+                    "source": "dataset"
+                }
+            ],
+            "confidence": "high",
+            "estimated_impact": "medium",
+            "urgency": "medium",
+            "priority_hint": 5,
+            "suggested_actions": [
+                {
+                    "action": "Identificar e documentar as melhores práticas dos clientes empresariais para replicá-las em outros segmentos.",
+                    "owner_suggestion": "Produto",
+                    "effort": "medium"
+                }
+            ],
+            "limitations": [
+                "A análise pode não considerar a totalidade das experiências de todos os clientes empresariais."
+            ]
+        }
+    ],
+    "risks": [
+        "Alta proporção de respostas negativas entre pequenas empresas, especialmente em relação à integração e documentação, pode levar a churn.",
+        "Dificuldades recorrentes no onboarding podem resultar em uma piora na experiência do cliente e aumento de reclamações.",
+        "A alta quantidade de reclamações sobre lentidão e atendimento no canal de email pode impactar negativamente a satisfação do cliente e a reputação da empresa.",
+        "A concentração de feedback negativo em segmentos específicos pode indicar riscos de decisão por dados incompletos se não forem considerados outros fatores."
+    ],
+    "opportunities": [
+        "Melhorar a documentação e a integração para pequenas empresas pode aumentar a satisfação e reduzir o churn.",
+        "Oportunidade de otimizar o processo de onboarding, que é uma reclamação recorrente, para melhorar a experiência do cliente.",
+        "Aumentar a eficiência do atendimento no canal de email pode melhorar a satisfação geral dos clientes e reduzir reclamações.",
+        "Explorar as altas taxas de NPS entre clientes empresariais para identificar práticas de sucesso que podem ser replicadas em outros segmentos."
+    ],
+    "hypotheses": [
+        "A baixa satisfação observada entre pequenas empresas pode estar relacionada à dificuldade de integração e documentação, pois 98 comentários mencionam esses problemas. Para validar, seria necessário analisar a taxa de churn e feedbacks adicionais sobre a experiência do cliente.",
+        "A diferença nas médias de NPS entre os segmentos de clientes (7 para o segmento médio e 8 para o empresarial) pode indicar que as necessidades e expectativas dos segmentos são distintas. Para validar, seria necessário realizar entrevistas qualitativas com clientes de cada segmento.",
+        "O canal de email, apesar de ser o mais utilizado, apresenta a maior quantidade de reclamações sobre lentidão e atendimento, o que pode sugerir que a eficiência do suporte nesse canal é insuficiente. Para validar, seria necessário comparar os tempos de resposta e resolução de problemas entre os canais de atendimento.",
+        "A dificuldade no onboarding, mencionada em 93 comentários, pode ser um fator crítico que impacta a satisfação do cliente e a retenção. Para validar, seria necessário analisar a correlação entre a pontuação de NPS e a experiência de onboarding dos clientes.",
+        "A alta proporção de NPS 10 entre clientes empresariais pode indicar que práticas específicas nesse segmento estão contribuindo para uma experiência positiva. Para validar, seria necessário investigar quais características ou serviços estão sendo mais valorizados por esses clientes."
+    ],
+    "overall_limitations": [
+        "Colunas de alta cardinalidade podem representar identificadores ou texto livre e devem ser usadas com cautela em agrupamentos."
+    ]
+}

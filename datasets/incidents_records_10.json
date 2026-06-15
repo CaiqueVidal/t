@@ -1,0 +1,102 @@
+[
+	{
+		"incident_id": "INC001",
+		"severity": "critical",
+		"service": "checkout-api",
+		"duration_minutes": 72,
+		"root_cause": "database_latency",
+		"status": "resolved",
+		"created_at": "2026-05-01",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC002",
+		"severity": "high",
+		"service": "payment-api",
+		"duration_minutes": 45,
+		"root_cause": "timeout",
+		"status": "resolved",
+		"created_at": "2026-05-02",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC003",
+		"severity": "critical",
+		"service": "checkout-api",
+		"duration_minutes": 90,
+		"root_cause": "database_latency",
+		"status": "resolved",
+		"created_at": "2026-05-03",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC004",
+		"severity": "medium",
+		"service": "catalog-api",
+		"duration_minutes": 18,
+		"root_cause": "deploy_error",
+		"status": "resolved",
+		"created_at": "2026-05-04",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC005",
+		"severity": "critical",
+		"service": "checkout-api",
+		"duration_minutes": 110,
+		"root_cause": "database_latency",
+		"status": "resolved",
+		"created_at": "2026-05-05",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC006",
+		"severity": "high",
+		"service": "auth-api",
+		"duration_minutes": 38,
+		"root_cause": "external_dependency",
+		"status": "resolved",
+		"created_at": "2026-05-06",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC007",
+		"severity": "critical",
+		"service": "payment-api",
+		"duration_minutes": 80,
+		"root_cause": "timeout",
+		"status": "resolved",
+		"created_at": "2026-05-07",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC008",
+		"severity": "low",
+		"service": "catalog-api",
+		"duration_minutes": 12,
+		"root_cause": null,
+		"status": "resolved",
+		"created_at": "2026-05-08",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC009",
+		"severity": "critical",
+		"service": "checkout-api",
+		"duration_minutes": 95,
+		"root_cause": "database_latency",
+		"status": "resolved",
+		"created_at": "2026-05-09",
+		"region": "sa-east-1"
+	},
+	{
+		"incident_id": "INC010",
+		"severity": "high",
+		"service": "checkout-api",
+		"duration_minutes": 55,
+		"root_cause": "database_latency",
+		"status": "resolved",
+		"created_at": "2026-05-10",
+		"region": "sa-east-1"
+	}
+]

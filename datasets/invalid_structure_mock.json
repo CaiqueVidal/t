@@ -1,0 +1,17 @@
+[
+  {
+    "incident_id": "INC001",
+    "severity": "critical",
+    "service": "checkout-api"
+  },
+  {
+    "customer_id": "C001",
+    "plan": "basic",
+    "churned": true
+  },
+  {
+    "order_id": "O001",
+    "revenue": 1200.0,
+    "product_category": "electronics"
+  }
+]

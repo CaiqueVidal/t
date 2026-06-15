@@ -1,0 +1,202 @@
+{
+    "analysis_goal": "Gerar uma análise exploratória do dataset, identificando principais achados, riscos, oportunidades, hipóteses explicativas, recomendações acionáveis, priorização dos insights e limitações dos dados.",
+    "profile": {
+        "total_records": 1000,
+        "total_columns": 9,
+        "columns": [
+            "incident_id",
+            "severity",
+            "service",
+            "duration_minutes",
+            "root_cause",
+            "status",
+            "created_at",
+            "region",
+            "customer_impact"
+        ],
+        "column_types": {
+            "numeric_columns": [
+                "duration_minutes"
+            ],
+            "categorical_columns": [
+                "severity",
+                "service",
+                "root_cause",
+                "status",
+                "region",
+                "customer_impact"
+            ],
+            "boolean_columns": [],
+            "date_columns": [
+                "created_at"
+            ],
+            "text_columns": [
+                "incident_id"
+            ]
+        },
+        "missing_values_ratio": {
+            "incident_id": 0.0,
+            "severity": 0.0,
+            "service": 0.0,
+            "duration_minutes": 0.0,
+            "root_cause": 0.035,
+            "status": 0.0,
+            "created_at": 0.0,
+            "region": 0.0,
+            "customer_impact": 0.0
+        },
+        "unique_values": {
+            "incident_id": 1000,
+            "severity": 4,
+            "service": 7,
+            "duration_minutes": 179,
+            "root_cause": 7,
+            "status": 3,
+            "created_at": 151,
+            "region": 3,
+            "customer_impact": 5
+        },
+        "unique_ratio": {
+            "incident_id": 1.0,
+            "severity": 0.004,
+            "service": 0.007,
+            "duration_minutes": 0.179,
+            "root_cause": 0.007,
+            "status": 0.003,
+            "created_at": 0.151,
+            "region": 0.003,
+            "customer_impact": 0.005
+        },
+        "constant_columns": [],
+        "high_null_columns": [],
+        "high_cardinality_columns": [
+            "incident_id"
+        ]
+    },
+    "metrics": {
+        "numeric_summary": {
+            "duration_minutes": {
+                "min": 3,
+                "max": 216,
+                "mean": 63.748,
+                "median": 51.0,
+                "sum": 63748
+            }
+        },
+        "categorical_summary": {
+            "severity": [
+                {
+                    "value": "medium",
+                    "count": 381
+                },
+                {
+                    "value": "high",
+                    "count": 272
+                },
+                {
+                    "value": "critical",
+                    "count": 188
+                },
+                {
+                    "value": "low",
+                    "count": 159
+                }
+            ],
+            "service": [
+                {
+                    "value": "checkout-api",
+                    "count": 274
+                },
+                {
+                    "value": "payment-api",
+                    "count": 218
+                },
+                {
+                    "value": "auth-api",
+                    "count": 140
+                },
+                {
+                    "value": "catalog-api",
+                    "count": 133
+                },
+                {
+                    "value": "order-api",
+                    "count": 85
+                }
+            ],
+            "root_cause": [
+                {
+                    "value": "database_latency",
+                    "count": 276
+                },
+                {
+                    "value": "timeout",
+                    "count": 216
+                },
+                {
+                    "value": "external_dependency",
+                    "count": 132
+                },
+                {
+                    "value": "memory_pressure",
+                    "count": 110
+                },
+                {
+                    "value": "deploy_error",
+                    "count": 109
+                }
+            ],
+            "status": [
+                {
+                    "value": "resolved",
+                    "count": 883
+                },
+                {
+                    "value": "mitigated",
+                    "count": 78
+                },
+                {
+                    "value": "open",
+                    "count": 39
+                }
+            ],
+            "region": [
+                {
+                    "value": "sa-east-1",
+                    "count": 746
+                },
+                {
+                    "value": "us-east-1",
+                    "count": 150
+                },
+                {
+                    "value": "us-west-2",
+                    "count": 104
+                }
+            ],
+            "customer_impact": [
+                {
+                    "value": "low",
+                    "count": 309
+                },
+                {
+                    "value": "medium",
+                    "count": 279
+                },
+                {
+                    "value": "none",
+                    "count": 207
+                },
+                {
+                    "value": "high",
+                    "count": 163
+                },
+                {
+                    "value": "severe",
+                    "count": 42
+                }
+            ]
+        },
+        "boolean_summary": {}
+    }
+}

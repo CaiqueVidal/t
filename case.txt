@@ -1,0 +1,35 @@
+Enunciado do case: 
+    Você deve desenvolver uma API de análise de insights, capaz de receber dados estruturados mockados de diferentes domínios (por exemplo: vendas, atendimento, incidentes, churn, NPS, uso de produto, etc.) e acionar um agente (ou multiagentes) baseado em LLM para gerar:
+        - principais achados; 
+        - riscos e oportunidades; 
+        - hipóteses explicativas; 
+        - recomendaões acionáveis; 
+        - priorização dos insigths. 
+
+    A API deve: 
+        - receber um conjunto de dados mockados; 
+        - validar e normalizar a entrada; 
+        - acionar um fluxo multiagente; 
+        - consolidar a saída dos agentes;
+        - retornar um resultado estruturado com insights acionáveis;
+
+    A resposta da API deve conter, por exemplo: 
+        - insigths encontrados; 
+        - evidências que sustente cada insight; 
+        - nível de confiança; 
+        - impacto estimado; 
+        - ações sugeridas; 
+        - possíveis limitações dos dados;
+
+Sugestão: Utilizar a funcionalidade do StackspotIA de gerar agentes que podem ser invocados via endpoint.
+Importante: Estude sobre os padrões de arquitetura de soluções e arquitetura de agentes na AWS no banco.
+
+-----------------------------------------------------------------------------------------------
+
+colocar desenhos
+explicar contrato da api com campos obrigatórios e opcionais
+colocar exemplos de teste (bons e ruins) 2 domínios
+
+guardrail da análise
+remover dados sensiveis
+agente validador de resposta
