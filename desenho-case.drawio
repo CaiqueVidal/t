@@ -1,0 +1,156 @@
+<mxfile host="Electron" pages="2">
+  <diagram name="Página-1" id="JB6Ojv3omIHU1Epjfxh-">
+    <mxGraphModel dx="1030" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="B46QKYIcq1UNi8Me4_mU-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- sou bom em lidar com problemas&lt;br&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- escrever software hj é fácil, o desafio é estruturar isso e apoir as pessoas a escolherem um bom caminho&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- legal explorar, debater e construir juntos&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- quero ser referência, mas trazendo o time pra discussões&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- hoje sou referência em alguns assuntos e apoio nas resoluções de problemas&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- quero auxuliar o time a crescer e n ser gargalo&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- mapear e entender arquitetura atual&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- problemáticas/incidentes e visão de onde quer chegar&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- fazer 1:1, bater um papo, entender as dores da área e do time&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- dashs e documentações para entender aplicação&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- débitos técnicos&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- quick-wins (o que dá resultado e muda o agora?)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="590" x="30" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="B46QKYIcq1UNi8Me4_mU-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Saída:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;- domínio inferido&lt;/div&gt;&lt;div&gt;- resumo da análise&lt;/div&gt;&lt;div&gt;- insights priorizados&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;- evidências&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;-&amp;nbsp;confiança&lt;/div&gt;&lt;div&gt;-&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt; impacto estimado&lt;/div&gt;&lt;div&gt;-&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt; ações recomendadas&lt;/div&gt;&lt;div&gt;- riscos&lt;/div&gt;&lt;div&gt;- oportunidades&lt;/div&gt;&lt;div&gt;- hipóteses&lt;/div&gt;&lt;div&gt;- limitações dos dados&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="200" x="70" y="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="-F4o71GERWkoLFkRlSt-" name="Página-2">
+    <mxGraphModel dx="2575" dy="1565" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-12" edge="1" parent="1" source="mzMwwAmUYHRHDjydN-2c-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="L0uIOlFFATlD5LZEgjvN-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mzMwwAmUYHRHDjydN-2c-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;" value="Validação" vertex="1">
+          <mxGeometry height="60" width="120" x="400" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-8" edge="1" parent="1" source="mzMwwAmUYHRHDjydN-2c-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="mzMwwAmUYHRHDjydN-2c-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mzMwwAmUYHRHDjydN-2c-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;" value="Resquest na API" vertex="1">
+          <mxGeometry height="60" width="120" x="200" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;Entrada:&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- records inline ou path_dataset&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- objetivo opcional da análise&lt;/div&gt;" vertex="1">
+          <mxGeometry height="52.5" width="180" x="140" y="117.5" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;- contrato da API&lt;/div&gt;&lt;div&gt;- estrutura dos dados&lt;/div&gt;- tamanho do dataset e quantidade de colunas" vertex="1">
+          <mxGeometry height="65" width="140" x="400" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-7" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="mzMwwAmUYHRHDjydN-2c-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-5" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="80" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- path do S3&lt;div&gt;- Upload de arquivo&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="160" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-19" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="L0uIOlFFATlD5LZEgjvN-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;" value="Profiling" vertex="1">
+          <mxGeometry height="60" width="120" x="600" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;&quot;&gt;qualidade dos dados&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;pela amostra, quantidade de colunas, nulos, constantes e cardinalidade&lt;/span&gt;" vertex="1">
+          <mxGeometry height="70" width="130" x="800" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- total de registros e colunas&lt;br&gt;- tipos inferidos&lt;div&gt;- colunas constantes&lt;br&gt;- cardinalidade&lt;br&gt;- colunas com muitos nulos&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="180" x="600" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-4" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="L0uIOlFFATlD5LZEgjvN-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;" value="Métricas" vertex="1">
+          <mxGeometry height="60" width="120" x="1000" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- mínimo e máximo&lt;br&gt;- média e&amp;nbsp;mediana&lt;br&gt;- soma&lt;br&gt;- top categorias&lt;br&gt;- distribuição booleana" vertex="1">
+          <mxGeometry height="70" width="130" x="1000" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-20" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="L0uIOlFFATlD5LZEgjvN-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;" value="DQ" vertex="1">
+          <mxGeometry height="60" width="120" x="800" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- guardrails de análise" vertex="1">
+          <mxGeometry height="20" width="130" x="400" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-5" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="L0uIOlFFATlD5LZEgjvN-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-16" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="n1iqm2L33oN8R07h7BOs-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Orquestrador" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- usuário define DQ&amp;nbsp;" vertex="1">
+          <mxGeometry height="20" width="110" x="800" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- usuário define métricas&amp;nbsp;" vertex="1">
+          <mxGeometry height="20" width="140" x="1000" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-6" edge="1" parent="1" source="L0uIOlFFATlD5LZEgjvN-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="L0uIOlFFATlD5LZEgjvN-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;" value="Consolidação e Priorização" vertex="1">
+          <mxGeometry height="60" width="120" x="1400" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L0uIOlFFATlD5LZEgjvN-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;" value="Response" vertex="1">
+          <mxGeometry height="60" width="120" x="1600" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;Saída:&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- domínio inferido&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- resumo da análise&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- insights priorizados&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;- evidências&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;- confiança&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;-&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&amp;nbsp;impacto estimado&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;-&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&amp;nbsp;ações recomendadas&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- riscos&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- oportunidades&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- hipóteses&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;- limitações dos dados&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="150" x="1600" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- define e ordena prioização&lt;div&gt;- monta resumo&lt;/div&gt;&lt;div&gt;- aponta limitações gerais&amp;nbsp;&lt;br&gt;&lt;div&gt;- consolida resposta&amp;nbsp;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="1400" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-17" edge="1" parent="1" source="n1iqm2L33oN8R07h7BOs-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="n1iqm2L33oN8R07h7BOs-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Semântico" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-18" edge="1" parent="1" source="n1iqm2L33oN8R07h7BOs-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="n1iqm2L33oN8R07h7BOs-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Insight" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-19" edge="1" parent="1" source="n1iqm2L33oN8R07h7BOs-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="n1iqm2L33oN8R07h7BOs-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Risco e Oportunidade" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="524.5" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-20" edge="1" parent="1" source="n1iqm2L33oN8R07h7BOs-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="n1iqm2L33oN8R07h7BOs-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Hipótese" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4E1F5;" value="Agente Recomendação" vertex="1">
+          <mxGeometry height="60" width="120" x="1200" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="T = 0.3" vertex="1">
+          <mxGeometry height="30" width="60" x="1330" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- ter agente crítico para validar as saídas e corrigir se necessário" vertex="1">
+          <mxGeometry height="50" width="130" x="1200" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="60" width="160" x="1185" y="835" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;Enunciado do case:&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; Você deve desenvolver uma API de análise de insights, capaz de receber dados estruturados&amp;nbsp;&lt;/div&gt;&lt;div&gt;mockados de diferentes domínios (por exemplo: vendas, atendimento, incidentes, churn, NPS, uso de produto, etc.)&amp;nbsp;&lt;/div&gt;&lt;div&gt;e acionar um agente (ou multiagentes) baseado em LLM para gerar:&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - principais achados;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - riscos e oportunidades;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - hipóteses explicativas;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - recomendaões acionáveis;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - priorização dos insigths.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; A API deve:&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - receber um conjunto de dados mockados;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - validar e normalizar a entrada;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - acionar um fluxo multiagente;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - consolidar a saída dos agentes;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - retornar um resultado estruturado com insights acionáveis;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; A resposta da API deve conter, por exemplo:&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - insigths encontrados;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - evidências que sustente cada insight;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - nível de confiança;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - impacto estimado;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - ações sugeridas;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; - possíveis limitações dos dados;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Sugestão: Utilizar a funcionalidade do StackspotIA de gerar agentes que podem ser invocados via endpoint.&lt;/div&gt;&lt;div&gt;Importante: Estude sobre os padrões de arquitetura de soluções e arquitetura de agentes na AWS no banco.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="410" width="630" x="150" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- remover dados sensíveis" vertex="1">
+          <mxGeometry height="20" width="150" x="600" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="n1iqm2L33oN8R07h7BOs-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="60" width="990" x="150" y="345" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
